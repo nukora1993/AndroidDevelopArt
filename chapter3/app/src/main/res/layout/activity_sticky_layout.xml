@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StickyLayoutActivity">
+
+    <com.example.chapter3.PinnedHeaderExpandableListView.expandable.StickyLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/sticky_layout"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/sticky_header"
+            android:gravity="center"
+            android:background="#78A524"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/image_view"
+                android:src="@drawable/ic_launcher_background"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sticky_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.example.chapter3.PinnedHeaderExpandableListView.expandable.PinnedHeaderExpandableListView
+                android:id="@+id/expandablelist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cacheColorHint="@null"
+                android:childIndicatorLeft="0dp"
+                android:divider="@color/colorPrimary"
+                android:scrollbarAlwaysDrawHorizontalTrack="false"></com.example.chapter3.PinnedHeaderExpandableListView.expandable.PinnedHeaderExpandableListView>
+        </LinearLayout>
+    </com.example.chapter3.PinnedHeaderExpandableListView.expandable.StickyLayout>
+
+</RelativeLayout>

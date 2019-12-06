@@ -1,0 +1,39 @@
+# ViewGroup dispatch处理MotionEevent,首先根据OnIntercept决定是否要拦截,该事件至多被调用一次，如果拦截，则调用自己的onTouchEvent,
+# 如果拦截，那么事件序列都直接交给该View处理
+# 如果不拦截，则调用子View的dispatch
+# TouchListener的优先级高于OnTouchEvent高于ClickListener
+# 若TouchListener返回False，则onTouchEvent仍然会被调用
+# 传递顺序：Activity->Window->ViewGroup->View
+
+
+# 若View在处理ACTION_DOWN时返回了false，那么序列中的其他事件就直接交给父View处理
+# 若View只处理了ACTION_DOWN,那么其他事件会消失，且父View的onTouch不会被调用，而是直接转交给Activity
+# ViewGroup默认不拦截
+# View的Ontouch默认返回true（除非其clickable和longclickable属性同时为false），且view没有拦截方法（只能时view group拦截）
+
+# 源码角度：
+# 事件首先交给Activity，Activity交给Window(window#superDispatchTouchEvent)处理，如果window处理了，那么就返回true，否则执行Activity的onTouchEvent
+# Window时一个abstract class，唯一的实现时PhoneWindow，Window可以控制顶级View的外观和行为策略
+# 在PhoneWindow会调用DecorView的onTouchEvent，然后传递给到setContentView中的设置的顶级View，顶级View一般来说都是ViewGroup，比如LinearLayout
+# 顶级View调用dispatchTouchEvent->若顶级View拦截，则事件被ViewGroup处理，若设置了TouchListener，那么就会被调用，
+# 否则调用OnTouchEvent，这说明TouchListener的优先级高于OnTouchEvent
+# 若OnTouchEvent设置了ClickListener，则ClickListener被调用，说明平常ClickListener优先级最低
+# 如果ViewGroup不拦截，则调用子View的dispatch，如此递归
+
+# 具体细节
+# ViewGroup如何判断是否要拦截：
+# 在ViewGroup的dispatchTouchEvent中，判断当前事件如果时DOWN或者当前未指定firstTouchTarget时，且未设置禁止拦截标志位时，则调用onIntercept，否则不调用
+# firstTouchTarget是当子View处理了事件，那么指向子View
+# 也就是说，如果事件被子View处理，且当前事件是MOVE，UP，那么Intercept不会调用
+# 即使设置了禁止Intercept标志，ViewGroup仍然可以拦截DOWN，因为DOWN会清除禁止拦截flagt
+# 也就是ViewGroup对DOWN总是要取判断拦截与否
+# 当ViewGroup拦截了事件，则后续事件直接交给ViewGroup，并且不会再调用onIntercept
+# 若不拦截，则遍历子View，根据子View点击坐标是否落在区域内和是否播放动画，如果是则调用dispach，若返回true，则firstTouchTarget被赋值，同时跳出遍历
+# 也就是如果有多个子View可以接受，那么只能选择一个，当然若返回false，则会传给下一个可以接受的子View，若所有子View都不处理，那么就自己处理
+
+# View对事件的处理（不含ViewGroup)
+# 如果有TouchListener，则调用，并且不会调用onTouchEvent,onTouchEvent会根据longClickable和Clickable决定是否消耗事件
+# longClickable和Clickable有一个为true就要消耗事件，且longClickable默认为false
+# Clickable的默认值和具体View有关，Button默认为true，textView默认为false
+
+

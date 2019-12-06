@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--layer-list是一种叠加的drawable，也叫做layerdrawable-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#0ac39e"/>
+        </shape>
+    </item>
+<!--top/bottom/..表示item相对于view的上下左右偏移-->
+    <item android:bottom="6dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#ffffff"/>
+        </shape>
+    </item>
+
+    <item
+        android:bottom="1dp"
+        android:left="1dp"
+        android:right="1dp">
+        <shape android:shape="rectangle">
+<!--            solid表示填充-->
+            <solid android:color="#ffffff"/>
+        </shape>
+    </item>
+
+</layer-list>

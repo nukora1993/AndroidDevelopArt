@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--对里面的内容进行裁剪,需要配合setLevel使用-->
+<clip xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clipOrientation="vertical"
+    android:drawable="@drawable/ic_launcher_foreground"
+    android:gravity="bottom">
+
+</clip>

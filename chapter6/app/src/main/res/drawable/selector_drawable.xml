@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--根据view不同的状态显示不同的背景，比如按钮按下-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"
+        android:drawable="@drawable/image1"/>
+    <item android:state_focused="true"
+        android:drawable="@drawable/ic_launcher_background"/>
+    <item android:drawable="@drawable/ic_launcher_foreground"/>
+</selector>

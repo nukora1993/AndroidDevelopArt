@@ -1,0 +1,54 @@
+# measure:负责确定view和子view的大小
+# layout:负责确定view和子view的位置
+# draw：负责绘制view和子view
+
+# measure的过程收到父view和measurespec的影响
+# mesurespec:32位，高2位代表mode，低30位代表size
+# mode有三类：
+# unspecified:父view对子view无限制，要多大给多大，一般用于系统内部
+# exactly:父view检测出了子view的大小，一般对应于match_parent和精确值
+# 所以如果父容器时wrapcontent，子view是match_parent,那么子view的实际mode是atmost
+# atmost:父view指定了一个最大的大小，一般对应于wrapcontent（最大不超过父view的大小）
+
+# 结论：
+# 若view是固定宽高，不管父view mode，view总是exact的；若view是match parent，父view是exact，子view也是exact；
+# 若view是match，父view是wrap，则view是atmost，且不超过父view的剩余可用空间
+# 若view是wrap，则其总是atmost，且不超过父view剩余大小
+# measurespec是在父容器的约束下由layoutparam转换而来
+# 具体分为两大类：
+# 1.如果是DecorView：
+# 如果layoutParam属性是matchparent，设置位exact模式，大小就是window大小
+# 如果是wrapcontent，设置位atmost模式，大小不定，最大为window大小
+# 其他，就是精确值，设置为exact，大小为指定大小
+# 2.如果普通view：收到父View的spec和自己的layout影响，同时和margin和padding有关，但是margin一般有父view处理，自己需要处理padding
+
+# 单个view的measure：
+# 首先调用measure方法，measure方法是final的无法覆盖，measure中调用onMeasure
+# onMeasure首先设置默认宽高，如果mode是atmost或者exact，那么默认宽高就是specsize，否则是系统推荐的size
+# 所谓系统推荐的size，根据是否设置了背景和minWidth属性获得推荐值，取背景的最小（其实就是背景的原始宽度）和属性中的较大值作为推荐值
+# 而背景的原始宽度ShapeDrawable是没有的，Bitmap是有的
+# 所以大部分情况下，单个view的size还是specsize指定
+
+# 所以默认情况下，如果view是wrapcontent，那么相当于使用matchparent：
+# 原因：默认wrapcontent，则view的mode是atmost，specsize是父view的剩余可用大小，这和matchparent没区别
+# 所以，一般情况下，自定义view对wrapcontent需要设置一个默认大小，而不是设置为父view的可用空间
+# 这个默认大小没有固定规定
+
+# 对于ViewGroup：
+# 调用measureChildren，对于每一个child依次调用measureChild，在measureChild中根据父view的mode和子view的layout，确定子view的mode和spec
+# ViewGroup是抽象类，没有实现measure方法，所以需要自己实现，针对不同的布局，需要不同的实现，所以ViewGroup的大小是要自己编写逻辑计算
+# 不过基本逻辑是先measure子元素大小，再measure自己大小
+# 可以看出，measure是比较复杂的过程，有时需要多次measure，所以一般再layout中去取得measure之后的实际大小
+# 有时需要再Activity中获取控件宽高，但是因为控件的measure流程和Activity的生命周期不同步，所以再onCreate、Onstart\OnResume中无法拿到
+# 通常可以再以下几个方法中拿到：
+# 1.Activity#onWindowFocusChanged:此时View已经被绘制
+# 2.view.post(runnable)：将view放到消息队列尾部，当消息被取出时，view也绘制好了
+# 3.ViewtreeObeserver#onGlobalLayout:当view树发生变化时，该方法被调用
+
+# Layout过程：首先viewgroup确定自己的位置，然后onLayout确定所有子元素的位置，但是onLayout没有默认的实现，因为和布局有关
+# 一般来说，masuredwidth和最终width时一样的（默认实现），除非特别重写layout
+# draw:绘制背景->绘制自己->绘制children(dispatchDraw)->绘制装饰(onDrawScrollbars)
+
+# 在自定义View中处理padding，只需要在onDraw()中处理，别忘记处理布局为wrap_content的情况。
+  在自定义ViewGroup中处理padding，只需要在onLayout()中，给子View布局时算上padding的值即可，也别忘记处理布局为wrap_content的情况。
+  自定义View无需处理margin，在自定义ViewGroup中处理margin时，需要在onMeasure()中根据margin计算ViewGroup的宽、高，同时在onLayout中布局子View时也别忘记根据margin来布局。

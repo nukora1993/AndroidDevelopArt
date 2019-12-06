@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RemoteViewTest"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <Button
+        android:id="@+id/remote_view_button1"
+        style="@style/AppTheme"
+        android:onClick="onButtonClick"
+        android:text="通知栏消息"/>
+
+    <Button
+        style="@style/AppTheme"
+        android:id="@+id/remote_view_button2"
+        android:onClick="onButtonClikc"
+        android:text="发送模拟通知栏消息"/>
+
+    <LinearLayout
+        style="@style/AppTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/remote_view_content"/>
+
+</LinearLayout>

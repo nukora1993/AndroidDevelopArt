@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--缩放特定的drawable，需要配合其setLevel使用-->
+<scale xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_launcher_foreground"
+    android:scaleHeight="70%"
+    android:scaleWidth="70%"
+    android:scaleGravity="center">
+
+</scale>

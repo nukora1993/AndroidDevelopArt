@@ -1,0 +1,3 @@
+# PinnedHeaderListView:ListView中的数据可以分组，每个分组有一个Header，可以固定在顶端显示
+# ExpandableListView:有分组，每个分组可以折叠
+# 该package下的代码实现上述二者的组合，并且在这两者上面还有一个Header，随着下面控件的滑动而显示/隐藏，叫做StickyLayout，类似于支付宝首页的效果

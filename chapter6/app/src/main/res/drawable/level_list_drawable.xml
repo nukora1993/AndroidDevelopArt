@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--根据不同的范围值显示不同背景-->
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/ic_launcher_foreground"
+        android:maxLevel="0"/>
+
+    <item
+        android:drawable="@drawable/ic_launcher_background"
+        android:maxLevel="1"/>
+</level-list>

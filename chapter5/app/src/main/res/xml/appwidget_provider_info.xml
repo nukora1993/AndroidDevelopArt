@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--小部件的配置信息-->
+<!--属性分别指定初始布局，最小尺寸，自动更新周期-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/widget"
+    android:minHeight="84dp"
+    android:minWidth="84dp"
+    android:updatePeriodMillis="86400000"></appwidget-provider>

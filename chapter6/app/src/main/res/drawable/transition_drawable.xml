@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--实现两个drawable之间的淡入淡出切换,但是需要配合startTransition方法才有效果-->
+<transition xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_launcher_background"/>
+    <item android:drawable="@drawable/ic_launcher_foreground"/>
+</transition>

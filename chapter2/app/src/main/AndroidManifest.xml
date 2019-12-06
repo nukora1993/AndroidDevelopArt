@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.chapter2">
+    <!-- 权限验证,这里给整个app都加了权限限制，也可以单独为某一个组件加权限 -->
+    <permission
+        android:name="com.wmm.ACCESS_BOOK_SERVICE"
+        android:protectionLevel="normal" />
+
+    <uses-permission android:name="com.wmm.ACCESS_BOOK_SERVICE" />
+    <uses-permission android:name="com.wmm.PROVIDER" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".binderpool.BinderPoolActivity"></activity>
+
+        <service
+            android:name=".binderpool.BinderPoolService"
+            android:enabled="true"
+            android:exported="true"
+            android:process="com.wmm.binder_pool_service"/>
+
+        <activity android:name=".provider.ProviderActivity" />
+
+        <provider
+            android:name=".provider.BookProvider"
+            android:authorities="com.example.chapter2.book.provider"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.wmm.PROVIDER"
+            android:process="com.wmm.book_provider" />
+
+        <activity android:name=".aidl.BookManagerActivity" />
+
+        <service
+            android:name=".aidl.BookManagerService"
+            android:enabled="true"
+            android:exported="true"
+            android:process="com.wmm.book_manager_service" />
+
+        <activity android:name=".messenger.MessengerActivity" />
+
+        <service
+            android:name=".messenger.MessengerService"
+            android:enabled="true"
+            android:exported="true"
+            android:process="com.wmm.messenger_service" />
+
+        <activity
+            android:name=".ThirdActivity"
+            android:configChanges="screenLayout"
+            android:process="com.wmm.third" />
+        <activity
+            android:name=".SecondActivity"
+            android:configChanges="screenLayout"
+            android:process="com.wmm.second" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

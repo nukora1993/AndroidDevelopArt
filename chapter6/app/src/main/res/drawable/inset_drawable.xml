@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--可以实现drawable的嵌套，让里面的drawable和内部的drawable有padding效果，其实layerdrawable也可以-->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_launcher_foreground"
+    android:insetTop="15dp"
+    android:insetBottom="15dp"
+    android:insetLeft="15dp"
+    android:insetRight="15dp">
+
+    <shape android:shape="rectangle">
+        <solid android:color="#ff0000"/>
+    </shape>
+
+</inset>

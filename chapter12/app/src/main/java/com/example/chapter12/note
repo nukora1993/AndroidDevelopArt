@@ -1,0 +1,19 @@
+#加载Bitmap
+#Bitmap就是一张图片，通常加载是通过BitmapFactory:decodeFile\decodeResource\decodeStream\decodeByteArray
+#分别从文件系统、资源、输入流和字节数组去加载
+#decodeFile和decodeRsource实际都是加用了decodeStream
+
+#高效加载bitmap可以使用BitmapFactory的Options(其实也可以采用glid这个第三方库)
+#Options主要使用inSampleSize设置采样率，如1表示原始大小，2表示宽高均为1/2，像素为原来1/4，以此类推
+#一般设置为2的倍数
+
+#获取采样率过程
+#Options#inJustDecodeBounds设为true（只会获取宽高，不会真正加载，所以此操作是轻量级），从Options#outWidth获取原始宽高，根据采样率规则计算inSampleSize、将Options的inJustDecodeBounds设为false然后重新加载
+
+#缓存：一般采用LruCache和DiskLruCache的结合，LRUcache一般使用supportv4兼容包提供的类
+#Lrucache的内部是Linkedhashmap,但lrucache本身是线程安全的
+#DiskLRUcache不属于android sdk
+#Disklrucache不能通过构造方法得到实例，而应该调用其open方法，添加使用Editor，其edit方法得到新的Editor对象（如果之前没有Editor对象）
+#通过Editor对象得到文件输出流，通过文件输出流的write写出，最终调用editor的commit提交写入操作
+#如果write过程中断（如下载失败），可以使用editor的abort方法
+#查找使用其get方法，得到SnapShot对象，然后得到输入流，如果想要采样，可以先得到文件描述符

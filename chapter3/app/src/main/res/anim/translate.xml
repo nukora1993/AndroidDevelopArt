@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+android:fillAfter="true"
+android:zAdjustment="normal">
+<!--    在100ms内将view向右小角移动100像素-->
+<!--    view动画只是有视觉效果，并不能真正改变view的属性值，并且如果上面没有设置fillAfter，view动画完成之后会还原到原始位置-->
+<!--    android3.0以下只能使用view动画-->
+    <translate
+        android:duration="100"
+        android:fromXDelta="0"
+        android:fromYDelta="0"
+        android:interpolator="@android:anim/linear_interpolator"
+        android:toXDelta="100"
+        android:toYDelta="100"/>
+</set>
